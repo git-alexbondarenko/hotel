@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit booking</title>
+</head>
+<body>
+
+  <form th:method="PATCH" th:action="@{/bookings/{id}(id=${booking.getId()})}" th:object="${booking}">
+
+    <h3>Edit booking:</h3>
+
+    <div class="md-form md-outline input-with-post-icon datepicker">
+      <label for="checkOutDate">Check out date</label>
+      <input placeholder="Select date" type="date" id="checkOutDate" class="form-control"
+             th:field="*{checkOutDate}">
+    </div>
+
+    <br/>
+    <input type="submit" value="Update" class="btn btn-secondary"/>
+  </form>
+
+</body>
+</html>

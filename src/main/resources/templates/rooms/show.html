@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Room page</title>
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+<h3 th:text="${'Room number: ' + room.getRoomNumber()}"></h3>
+<p th:text="${'Room class: ' + room.getRoomClass()}"></p>
+<p th:text="${'Beds quantity: ' + room.getBedsQuantity()}"></p>
+<p th:text="${'Price per night: ' + room.getPricePerNight()}"></p>
+<p th:text="${'Status:' + room.getState()}"></p>
+
+
+<br/>
+<form th:action="@{/rooms/{roomNumber}/edit(roomNumber=${room.getRoomNumber()})}">
+    <input type="submit" value="Edit room" class="btn btn-secondary"/>
+</form>
+
+<br/>
+<form th:method="DELETE" th:action="@{/rooms/{roomNumber}(roomNumber=${room.getRoomNumber()})}">
+    <input type="submit" value="Delete room" class="btn btn-danger"/>
+</form>
+
+
+<br/>
+<table class="table table-sm table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>booking id</th>
+        <th>guest</th>
+        <th>checkin</th>
+        <th>checkout</th>
+        <th>status</th>
+        <th>total cost</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="booking : ${room.getBookings()}">
+        <td>
+            <a th:href="@{/bookings/{id}(id=${booking.getId()})}" th:text="${booking.getId()}"></a>
+        </td>
+        <td th:text="${booking.getGuest().getFirstName() + ' ' + booking.getGuest().getLastName()}"></td>
+        <td th:text="${booking.getCheckInDate()}"></td>
+        <td th:text="${booking.getCheckOutDate()}"></td>
+        <td th:text="${booking.getState()}"></td>
+        <td th:text="${booking.getTotalCost()}"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add new room</title>
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+<h3>New room:</h3>
+<form th:method="POST" th:action="@{/rooms/new}" th:object="${room}">
+
+  <label for="roomNumber">Room number: </label>
+  <input type="text" th:field="*{roomNumber}" id="roomNumber"/>
+  <div style="color:red" th:if="${#fields.hasErrors('roomNumber')}" th:errors="*{roomNumber}"></div>
+
+  <br/>
+  <label for="bedsQuantity">Beds quantity: </label>
+  <input type="text" th:field="*{bedsQuantity}" id="bedsQuantity"/>
+  <div style="color:red" th:if="${#fields.hasErrors('bedsQuantity')}" th:errors="*{bedsQuantity}"></div>
+
+  <br/>
+  <label for="pricePerNight">pricePerNight: </label>
+  <input type="text" th:field="*{pricePerNight}" id="pricePerNight"/>
+  <div style="color:red" th:if="${#fields.hasErrors('pricePerNight')}" th:errors="*{pricePerNight}"></div>
+
+  <br>
+  <label for="roomClass">Room class: </label>
+  <select th:field="${room.roomClass}" id="roomClass" class="dropdown">
+    <option th:each="rc : ${roomClasses}" th:value="${rc.name()}" th:text="${rc.name()}" >
+    </option>
+  </select>
+
+  <br/>
+  <input type="submit" value="Create" class="btn btn-secondary"/>
+</form>
+</body>
+</html>

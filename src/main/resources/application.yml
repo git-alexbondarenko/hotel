@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/hotel
+    username: root
+    password: 111
+  jpa:
+    defer-datasource-initialization: true
+    generate-ddl: true
+
+  h2:
+    console.enabled: true
+    console:
+      settings:
+        web-allow-others: true
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

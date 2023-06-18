@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rooms</title>
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+<label for="search">Search room</label>
+<select id="search" class="dropdown" onchange="toggleOtherSelect()">
+    <option value="roomNumber">Number</option>
+    <option value="roomClass">Class</option>
+    <option value="bedsQuantity"># of beds</option>
+</select>
+<div id="roomClassSelector" style="display: none;">
+    <select id="roomClass" name="roomClass">
+        <option th:each="rc : ${roomClasses}" th:value="${rc.name()}" th:text="${rc.name()}"></option>
+    </select>
+</div>
+<div>
+    <input type="text" id="input"/>
+</div>
+<button onclick="sendSelectedValue()" class="btn btn-secondary">Submit</button>
+
+
+<hr/>
+<table class="table table-sm table-striped">
+    <thead class="table-header table-dark">
+    <tr>
+        <td>Number</td>
+        <td># of beds</td>
+        <td>Class</td>
+        <td>State</td>
+        <td></td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="room: ${rooms}">
+        <td>
+            <a th:href="@{/rooms/{roomNumber}(roomNumber=${room.getRoomNumber()})}" th:text="${room.getRoomNumber()}"></a>
+        </td>
+        <td th:text="${room.getBedsQuantity()}"></td>
+        <td th:text="${room.getRoomClass()}"></td>
+        <td th:text="${room.getState()}"></td>
+
+
+        <td th:if="${room.getState().name() == 'EMPTY'}">
+            <a th:href="@{/bookings/new(room=${room.roomNumber})}" class="btn btn-primary">Checkin</a>
+        </td>
+        <td th:if="${room.getState().name() == 'CHECKED_IN'}">
+            <a th:href="@{/bookings/checkOut(room=${room.roomNumber})}" class="btn btn-success">Checkout</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+<br/>
+<hr/>
+<form action="/rooms/new">
+    <input type="submit" value="New room" class="btn btn-secondary"/>
+</form>
+
+<br/>
+<form action="/rooms/search">
+    <input type="submit" value="Search room" class="btn btn-secondary"/>
+</form>
+<script>
+    function sendSelectedValue() {
+        const selectedValue = document.getElementById("search").value;
+        var input;
+        if (selectedValue === 'roomClass') {
+            input = document.getElementById("roomClass").value;
+        } else {
+            input = document.getElementById("input").value;
+        }
+        window.location.href = "/rooms?findBy=" + selectedValue + "&value=" + input;
+    }
+
+    function toggleOtherSelect() {
+        const search = document.getElementById('search');
+        const select = document.getElementById('roomClassSelector');
+        const input = document.getElementById('input');
+        if (search.value === 'roomClass') {
+            select.style.display = 'block';
+            input.style.display = 'none';
+        } else {
+            select.style.display = 'none';
+            input.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit room</title>
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+
+<form th:method="PATCH" th:action="@{/guests/{id}(id=${guest.getId()})}" th:object="${guest}">
+  <label for="firstName">First name: </label>
+  <input type="text" th:field="*{firstName}" id="firstName"/>
+  <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+
+  <br/>
+  <label for="lastName">Last name: </label>
+  <input type="text" th:field="*{lastName}" id="lastName"/>
+  <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+
+  <br/>
+  <label for="passportId">Passport id: </label>
+  <input type="text" th:field="*{passportId}" id="passportId"/>
+  <div style="color:red" th:if="${#fields.hasErrors('passportId')}" th:errors="*{passportId}"></div>
+
+  <br/>
+  <label for="phone">Phone: </label>
+  <input type="text" th:field="*{phone}" id="phone"/>
+  <div style="color:red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+
+  <br/>
+  <label for="email">Email: </label>
+  <input type="text" th:field="*{email}" id="email"/>
+  <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+  <br/>
+  <input type="submit" value="Edit" class="btn btn-secondary"/>
+</form>
+</body>
+</html>
+</body>
+</html>

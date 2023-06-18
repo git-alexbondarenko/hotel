@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Guests</title>
+</head>
+<body>
+    <div th:insert="~{header :: header}"></div>
+
+<label for="search">Search guest</label>
+<select id="search" class="dropdown">
+    <option value="name">Name</option>
+    <option value="passportId">Passport Id</option>
+    <option value="phone">Phone number</option>
+</select>
+<input type="text" id="input"/>
+<button onclick="sendSelectedValue()" class="btn btn-secondary">Submit</button>
+
+<hr/>
+<table class="table table-sm table-striped">
+    <thead class="table-header table-dark">
+    <tr>
+        <td>passport id</td>
+        <td>name</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="guest : ${guests}">
+        <td>
+            <a th:href="@{/guests/{id}(id=${guest.getId()})}" th:text="${guest.getPassportId()}"></a>
+        </td>
+        <td th:text="${guest.getFirstName() + ' ' + guest.getLastName()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<hr/>
+<form action="/guests/new">
+    <input type="submit" value="New guest" class="btn btn-secondary"/>
+</form>
+
+
+<script>
+    function sendSelectedValue() {
+        var selectedValue = document.getElementById("search").value;
+        var input = document.getElementById("input").value;
+        var url = "/guests?findBy=" + selectedValue + "&value=" + input;
+        window.location.href = url;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+<hr>
+<br/>
+<form th:method="POST" th:action="@{/bookings/new}" th:object="${booking}">
+  <input type="hidden" th:field="*{room}">
+  <input type="hidden" th:field="*{state}">
+
+
+  <label for="passportId">Guest Passport id: </label>
+  <input type="text" th:field="*{guest.passportId}" id="passportId"/>
+  <span style="color:red" th:if="${#fields.hasErrors('guest.passportId')}" th:errors="*{guest.passportId}"></span>
+
+  <input type="submit" value="Find" class="btn btn-secondary"/>
+</form>
+
+<br/>
+<form th:method="POST" th:action="@{/bookings/add}" th:object="${booking}">
+  <input type="hidden" th:field="*{guest.passportId}"/>
+  <input type="hidden" th:field="*{room}">
+  <input type="hidden" th:field="*{guest}">
+  <input type="hidden" th:field="*{state}">
+
+  <label for="firstName">First name: </label>
+  <input type="text" th:field="*{guest.firstName}" id="firstName"/>
+  <div style="color:red" th:if="${#fields.hasErrors('guest.firstName')}" th:errors="*{guest.firstName}"></div>
+
+  <br/>
+  <label for="lastName">Last name: </label>
+  <input type="text" th:field="*{guest.lastName}" id="lastName"/>
+  <div style="color:red" th:if="${#fields.hasErrors('guest.lastName')}" th:errors="*{guest.lastName}"></div>
+
+  <br/>
+  <label for="phone">Phone: </label>
+  <input type="text" th:field="*{guest.phone}" id="phone"/>
+  <div style="color:red" th:if="${#fields.hasErrors('guest.phone')}" th:errors="*{guest.phone}"></div>
+
+  <br/>
+  <label for="email">Email: </label>
+  <input type="text" th:field="*{guest.email}" id="email"/>
+  <div style="color:red" th:if="${#fields.hasErrors('guest.email')}" th:errors="*{guest.email}"></div>
+
+  <br/>
+<div class="md-form md-outline input-with-post-icon datepicker">
+  <label for="checkOutDate">Check out date</label>
+  <input placeholder="Select date" type="date" id="checkOutDate" class="form-control" th:field="*{checkOutDate}">
+  <div style="color:red" th:if="${#fields.hasErrors('checkOutDate')}" th:errors="*{checkOutDate}"></div>
+</div>
+
+  <input type="submit" value="Add booking" class="btn btn-secondary"/>
+</form>
+
+</body>
+</html>

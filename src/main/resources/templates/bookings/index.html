@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.css}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bookings</title>
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+<label for="state">Filter bookings</label>
+<select id="state" class="dropdown">
+    <option th:each="state : ${bookingState}" th:value="${state.name()}" th:text="${state.name()}" >
+    </option>
+</select>
+<button onclick="sendSelectedValue()" class="btn btn-secondary">Submit</button>
+<hr/>
+
+<table class="table table-sm table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>Id</th>
+        <th>Room</th>
+        <th>Guest name</th>
+        <th>Check in</th>
+        <th>Check out</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="booking : ${bookings}">
+        <td>
+            <a th:href="@{/bookings/{id}(id=${booking.getId()})}" th:text="${booking.getId()}"></a>
+        </td>
+        <td>
+            <a th:href="@{/rooms/{roomNumber}(roomNumber=${booking.getRoom().getRoomNumber()})}"
+               th:text="${booking.getRoom().getRoomNumber()}"></a>
+        </td>
+        <td> <a th:href="@{/guests/{id}(id=${booking.getGuest().getId()})}"
+                th:text="${booking.getGuest().getFirstName() + ' ' + booking.getGuest().getLastName()}"></a>
+        </td>
+        <td th:text="${booking.getCheckInDate()}"></td>
+        <td th:text="${booking.getCheckOutDate()}"></td>
+        <td th:text="${booking.getState()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    function sendSelectedValue() {
+        var selectedValue = document.getElementById("state").value;
+        var url = "/bookings?state=" + encodeURIComponent(selectedValue);
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>
